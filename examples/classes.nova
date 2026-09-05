@@ -1,0 +1,5 @@
+class Player {
+    fn init(name) {
+        this.name = name
+    }
+}

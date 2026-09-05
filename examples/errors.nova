@@ -1,0 +1,5 @@
+try {
+    throw "demo error"
+} catch err {
+    say err
+}

@@ -1,0 +1,6 @@
+#include "nova/parser.hpp"
+#include <stdexcept>
+namespace nova{
+Parser::Parser(std::vector<Token>t):tokens(std::move(t)){}
+std::vector<StmtPtr> Parser::parse(){std::vector<StmtPtr>o;for(size_t i=0;i<tokens.size();){if(tokens[i].type==TokenType::Newline){++i;continue;}if(tokens[i].type==TokenType::End)break;if(tokens[i].type==TokenType::Identifier&&tokens[i].text=="say"){if(i+1>=tokens.size())throw std::runtime_error("say needs a value");o.push_back(std::make_shared<PrintStmt>(std::make_shared<LiteralExpr>(tokens[i+1].text)));i+=2;continue;}if(tokens[i].type==TokenType::Let||tokens[i].type==TokenType::Const){bool c=tokens[i].type==TokenType::Const;++i;if(i>=tokens.size()||tokens[i].type!=TokenType::Identifier)throw std::runtime_error("Expected variable name");auto s=std::make_shared<LetStmt>();s->name=tokens[i++].text;s->constant=c;if(i<tokens.size()&&tokens[i].type==TokenType::Equal)++i;if(i<tokens.size()&&tokens[i].type!=TokenType::Newline)s->init=std::make_shared<LiteralExpr>(tokens[i++].text);o.push_back(s);continue;}if(tokens[i].type==TokenType::Throw){++i;if(i>=tokens.size())throw std::runtime_error("throw needs a value");o.push_back(std::make_shared<ThrowStmt>(std::make_shared<LiteralExpr>(tokens[i++].text)));continue;}++i;}return o;}
+}
