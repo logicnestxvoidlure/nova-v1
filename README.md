@@ -83,4 +83,5 @@ say add(20, 22)
 
 Nova 1.0 is a native-runtime development branch. The goal is to turn Nova into a fast, stable language and eventually define Nova 1.0 as the first stable language specification.
 
-Future work includes a complete bytecode compiler, garbage collector, package manager, native extension API, optimizer, concurrency, richer standard library and optional JIT research.
+
+
